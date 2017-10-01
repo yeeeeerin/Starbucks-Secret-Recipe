@@ -1,3 +1,3 @@
 # Starbucks-Secret-Recipe
 
-iphon6 version
+iphone6 version
