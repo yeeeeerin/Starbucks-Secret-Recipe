@@ -13,9 +13,10 @@ class CustomViewController: UIViewController {
     
     @IBOutlet var userLabel: UILabel!
     var userName:String = ""
-    var coffeeNameStr:String = ""
-    var coffeeImageStr:String = ""
-    var priceStr:Int = 0
+    
+    typealias coffeeMenu = (name: String, image: String, price: Int)
+    var coffee:coffeeMenu = ("" , "0", 0)
+    
     
     @IBOutlet var shotlabel: UILabel!
     @IBOutlet var syruplabel: UILabel!
@@ -41,7 +42,7 @@ class CustomViewController: UIViewController {
         //기본 음료에 옵션이 추가되어있으면 가격이 올라가지 않는다.
         if sender.restorationIdentifier=="shot"{
             shotlabel.text = String(Int(sender.value))
-            priceStr = priceStr + 500
+            coffee.price = coffee.price + 500
             addCustom[0] = addCustom[0] + 1
         }else if sender.restorationIdentifier=="syrup"{
             syruplabel.text = String(Int(sender.value))
@@ -56,32 +57,32 @@ class CustomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        userLabel.text = userName+"님 "+coffeeNameStr + " 음료를\n 커스텀 해주세요."
+        userLabel.text = userName+"님 "+coffee.name + " 음료를\n 커스텀 해주세요."
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "customorderSeg"){
             let destVC = segue.destination as! OrderViewController
             
-            //기본 셋팅 외 추가되는 옵션이 있을경우 500원씩 가격이 올라간다.
-            if(coffeeNameStr == "바닐라크림 업그레이드" ){
+            //기본 셋팅 외 추가되는 옵션이 있을경우 가격이 올라간다.
+            if(coffee.name == "바닐라크림 업그레이드" ){
                 if Int(javachiplabel.text!)!>0{
-                    priceStr = priceStr + 500
+                    coffee.price = coffee.price + 500
                 }
 
-            }else if(coffeeNameStr == "케이크 푸라푸치노"){
+            }else if(coffee.name == "케이크 푸라푸치노"){
                 if (Int(javachiplabel.text!)! > 0) && (drizzleSeg.selectedSegmentIndex) > 0{
-                    priceStr = priceStr + 500
+                    coffee.price = coffee.price + 500
                 }
             }
             
             //원래 있는 옵션을 선택 안할 경우 500원씩 차감한다.
             if whippingSeg.titleForSegment(at: whippingSeg.selectedSegmentIndex) == "없음" {
-                priceStr = priceStr - 500
+                coffee.price = coffee.price - 500
             }
             if drizzleSeg.titleForSegment(at: drizzleSeg.selectedSegmentIndex) == "없음" &&
-                coffeeImageStr != "캡틴 크런치 베리" && coffeeImageStr != "케이크 프라푸치노" {
-                
+                coffee.name != "캡틴 크런치 베리" && coffee.name != "케이크 프라푸치노" {
+                coffee.price = coffee.price - 500
             }
             
             //추가되는 옵션이 있을경우 addCustomStr 변수에 저장하고 그 값을 OrderViewController에 넘겨준다.
@@ -92,9 +93,8 @@ class CustomViewController: UIViewController {
             addCustomStr.append(" 휘핑"+whippingSeg.titleForSegment(at: whippingSeg.selectedSegmentIndex)!)
             
             
-            destVC.coffeeNameStr = coffeeNameStr
-            destVC.priceStr = priceStr
-            destVC.coffeeImageStr = coffeeImageStr
+            destVC.coffee = coffee
+
             destVC.addCustomStr = addCustomStr
             
         }
