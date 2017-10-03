@@ -17,8 +17,7 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet var coffeeImage: UIImageView!
     @IBOutlet var price: UILabel!
     
-    //같은커피의 종류와 이미지이름 가격은 같은 인덱스 번호를 가지고 있다
-
+    //커피의 이름과 이미지 가격을 하나로 묶는다.
     typealias coffeeMenu = (name: String, image: String, price: Int)
     
     var coffeeTypeList:[coffeeMenu] =
