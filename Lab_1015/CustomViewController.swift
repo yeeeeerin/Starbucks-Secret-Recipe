@@ -63,7 +63,7 @@ class CustomViewController: UIViewController {
         if(segue.identifier == "customorderSeg"){
             let destVC = segue.destination as! OrderViewController
             
-            //기본 셋팅 외 추가되는 옵션이 있을경우 가격이 올라간다.
+            //기본 셋팅 외 추가되는 옵션이 있을경우 500원씩 가격이 올라간다.
             if(coffeeNameStr == "바닐라크림 업그레이드" ){
                 if Int(javachiplabel.text!)!>0{
                     priceStr = priceStr + 500
@@ -73,6 +73,15 @@ class CustomViewController: UIViewController {
                 if (Int(javachiplabel.text!)! > 0) && (drizzleSeg.selectedSegmentIndex) > 0{
                     priceStr = priceStr + 500
                 }
+            }
+            
+            //원래 있는 옵션을 선택 안할 경우 500원씩 차감한다.
+            if whippingSeg.titleForSegment(at: whippingSeg.selectedSegmentIndex) == "없음" {
+                priceStr = priceStr - 500
+            }
+            if drizzleSeg.titleForSegment(at: drizzleSeg.selectedSegmentIndex) == "없음" &&
+                coffeeImageStr != "캡틴 크런치 베리" && coffeeImageStr != "케이크 프라푸치노" {
+                
             }
             
             //추가되는 옵션이 있을경우 addCustomStr 변수에 저장하고 그 값을 OrderViewController에 넘겨준다.
