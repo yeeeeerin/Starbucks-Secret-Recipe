@@ -67,6 +67,7 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
 
+    //글자 색을 하얀색으로 하기 위해 설정
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
         return NSAttributedString(string: coffeeTypeList[row].name, attributes: [NSForegroundColorAttributeName:UIColor.white])
@@ -75,7 +76,7 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return coffeeTypeList.count
     }
-    
+ 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         return coffeeTypeList[row].name
